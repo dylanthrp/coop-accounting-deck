@@ -20,6 +20,11 @@
     --good: #22c55e;
     --bad: #ef4444;
     --shadow: 0 18px 50px rgba(0,0,0,.35);
+    /* Michigan theme */
+    --um-blue: #00274C;
+    --um-blue-light: #1a3a6b;
+    --um-maize: #FFCB05;
+    --um-maize-glow: #ffe45c;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { height: 100%; }
@@ -32,29 +37,135 @@
     color: var(--text);
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
-  .topbar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 28px; border-bottom: 1px solid var(--line);
-    background: rgba(15,17,21,.7); backdrop-filter: blur(8px);
-    position: sticky; top: 0; z-index: 50;
+  /* ====== Michigan decorative elements ====== */
+  body::before {
+    content: "";
+    position: fixed; top: 0; right: 0; width: 540px; height: 540px;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255,203,5,.10), transparent 45%),
+      radial-gradient(circle at 70% 70%, rgba(0,39,76,.6), transparent 55%);
+    border-radius: 50%;
+    filter: blur(20px);
+    pointer-events: none; z-index: 0;
   }
+  body::after {
+    content: "";
+    position: fixed; bottom: -120px; left: -120px;
+    width: 380px; height: 380px;
+    background:
+      radial-gradient(circle, rgba(255,203,5,.08), transparent 60%),
+      radial-gradient(circle at 80% 80%, rgba(0,39,76,.5), transparent 60%);
+    border-radius: 50%;
+    filter: blur(20px);
+    pointer-events: none; z-index: 0;
+  }
+  .maize-stripe {
+    position: fixed; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg,
+      var(--um-maize) 0%, var(--um-maize) 33%,
+      #ffffff 33%, #ffffff 66%,
+      var(--um-blue) 66%, var(--um-blue) 100%);
+    z-index: 100;
+    box-shadow: 0 1px 12px rgba(255,203,5,.4);
+  }
+  /* ====== Topbar branding with Michigan helmet ====== */
   .brand { display: flex; gap: 12px; align-items: center; }
   .brand .logo {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    display: grid; place-items: center; font-weight: 800; color: white;
-    box-shadow: 0 8px 20px rgba(124,92,255,.4);
+    width: 44px; height: 44px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--um-blue) 0%, var(--um-blue-light) 100%);
+    display: grid; place-items: center; color: var(--um-maize);
+    box-shadow: 0 8px 22px rgba(0,39,76,.55), inset 0 0 0 2px rgba(255,203,5,.6);
+    overflow: hidden;
+    position: relative;
   }
-  .brand .title { font-weight: 800; letter-spacing: -.01em; font-size: 16px; }
+  .brand .logo svg { width: 32px; height: 32px; }
+  .brand .title { font-weight: 800; letter-spacing: -.01em; font-size: 16px; color: var(--text); }
+  .brand .title .maize { color: var(--um-maize); }
   .brand .sub { font-size: 12px; color: var(--text-dim); }
   .progress-mini {
     display: flex; gap: 6px; align-items: center; color: var(--text-dim); font-size: 12.5px;
   }
   .progress-mini .bar { width: 140px; height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
-  .progress-mini .bar > div { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .3s ease; }
+  .progress-mini .bar > div { height: 100%; background: linear-gradient(90deg, var(--um-maize), var(--um-maize-glow)); transition: width .3s ease; }
 
-  .wrap { max-width: 980px; margin: 0 auto; padding: 36px 24px 80px; }
+  /* ====== Home hero with stadium + wolverine ====== */
+  .home {
+    text-align: center;
+    padding: 30px 16px 40px;
+    position: relative;
+  }
+  .home-stadium {
+    width: 100%; max-width: 600px; height: 140px; margin: 0 auto 28px;
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, transparent 0%, transparent 60%, rgba(0,39,76,.85) 100%),
+      radial-gradient(ellipse at 50% 100%, rgba(255,203,5,.18), transparent 70%),
+      linear-gradient(180deg, #0a1828 0%, #1a2f4a 50%, #243c5c 100%);
+    border: 1px solid rgba(255,203,5,.2);
+    box-shadow: 0 16px 40px rgba(0,39,76,.4);
+  }
+  .home-stadium::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 38px;
+    background:
+      repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0px, rgba(255,255,255,.08) 2px, transparent 2px, transparent 12px);
+    border-top: 1px solid rgba(255,203,5,.3);
+  }
+  .home-stadium svg { width: 100%; height: 100%; display: block; }
+  .home .hero-tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent-2);
+    background: rgba(124,92,255,.12);
+    border: 1px solid rgba(124,92,255,.3);
+    padding: 7px 14px; border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  .home h1 {
+    font-size: clamp(40px, 7vw, 60px);
+    font-weight: 800; letter-spacing: -.02em; line-height: 1;
+    background: linear-gradient(135deg, var(--um-maize-glow) 0%, #ffffff 50%, var(--um-maize) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-bottom: 14px;
+  }
+  .home h1 .blue { background: linear-gradient(135deg, #4a7bbf, #1a3a6b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .home .subtitle {
+    color: var(--text-dim);
+    font-size: 16px;
+    max-width: 520px; margin: 0 auto 32px;
+  }
+
+  /* Floating maize confetti */
+  .confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+  .confetti i {
+    position: absolute;
+    width: 8px; height: 14px;
+    background: var(--um-maize);
+    border-radius: 2px;
+    opacity: .35;
+    animation: fall linear infinite;
+  }
+  .confetti i.b { background: #4a7bbf; }
+  @keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(360deg); }
+  }
+
+  /* ====== Topbar ====== */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 28px; border-bottom: 1px solid var(--line);
+    background: rgba(15,17,21,.85); backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 50;
+    border-top: 1px solid rgba(255,203,5,.3);
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 36px 24px 80px; position: relative; z-index: 1; }
 
   /* Mode tabs */
   .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
@@ -65,8 +176,10 @@
   }
   .tab:hover { background: var(--card-2); color: var(--text); }
   .tab.active {
-    background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    color: white; border-color: transparent; box-shadow: 0 8px 24px rgba(124,92,255,.4);
+    background: linear-gradient(135deg, var(--um-maize), var(--um-maize-glow));
+    color: var(--um-blue-deep);
+    border-color: transparent;
+    box-shadow: 0 8px 24px rgba(255,203,5,.4);
   }
 
   /* Stats strip */
@@ -88,7 +201,7 @@
     cursor: pointer; transition: all .15s ease;
   }
   .chip:hover { color: var(--text); }
-  .chip.active { background: var(--accent); color: white; border-color: transparent; }
+  .chip.active { background: var(--um-maize); color: var(--um-blue-deep); border-color: transparent; font-weight: 800; }
 
   /* Flashcard */
   .stage { perspective: 1200px; margin: 24px 0; min-height: 360px; }
@@ -196,6 +309,86 @@
   .end .stats-row .v { font-size: 20px; font-weight: 800; }
   .end .stats-row .k { font-size: 11px; color: var(--text-dim); margin-top: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
 
+  /* Home / menu screen */
+  .home {
+    text-align: center;
+    padding: 30px 16px 40px;
+  }
+  .home .hero-tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent-2);
+    background: rgba(124,92,255,.12);
+    border: 1px solid rgba(124,92,255,.3);
+    padding: 7px 14px; border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  .home h1 {
+    font-size: clamp(40px, 7vw, 60px);
+    font-weight: 800; letter-spacing: -.02em; line-height: 1;
+    background: linear-gradient(135deg, var(--accent-2), #fff 60%, var(--accent));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-bottom: 14px;
+  }
+  .home .subtitle {
+    color: var(--text-dim);
+    font-size: 16px;
+    max-width: 520px; margin: 0 auto 32px;
+  }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .menu-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 22px;
+    text-align: left;
+    cursor: pointer;
+    transition: all .15s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .menu-card::before {
+    content: ""; position: absolute; inset: 0; border-radius: 18px;
+    background: radial-gradient(ellipse at 50% 0%, var(--glow, rgba(124,92,255,.2)), transparent 60%);
+    opacity: 0; transition: opacity .2s ease;
+    pointer-events: none;
+  }
+  .menu-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .menu-card:hover::before { opacity: 1; }
+  .menu-card .icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--glow, rgba(124,92,255,.18));
+    border: 1px solid rgba(124,92,255,.4);
+    display: grid; place-items: center; font-size: 22px;
+    margin-bottom: 14px;
+  }
+  .menu-card h3 {
+    font-size: 18px; font-weight: 800; margin-bottom: 6px;
+  }
+  .menu-card p {
+    font-size: 13.5px; color: var(--text-dim); line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .menu-card .meta {
+    font-size: 11px; color: var(--accent-2); font-weight: 800;
+    letter-spacing: .08em; text-transform: uppercase;
+  }
+  .menu-card.flash { --glow: rgba(124,92,255,.18); }
+  .menu-card.test  { --glow: rgba(34,197,94,.18); }
+  .menu-card.match { --glow: rgba(251,191,36,.18); }
+
+  .home-foot {
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .home-foot b { color: var(--text); }
+
   @media (max-width: 720px) {
     .stats { grid-template-columns: repeat(2, 1fr); }
     .face { padding: 26px; }
@@ -207,24 +400,53 @@
 </head>
 <body>
 
-<div class="topbar">
+<div class="maize-stripe"></div>
+<div class="confetti" id="confetti"></div>
+
+<header class="topbar">
   <div class="brand">
-    <div class="logo">A</div>
+    <div class="logo" aria-hidden="true">
+      <!-- Michigan winged helmet (simplified) -->
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="helmetGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FFCB05"/>
+            <stop offset="1" stop-color="#e0a800"/>
+          </linearGradient>
+        </defs>
+        <!-- helmet shell -->
+        <path d="M6 38 Q6 14 36 12 Q56 12 58 30 L58 40 Q58 44 54 44 L20 44 Q10 44 6 38 Z" fill="url(#helmetGrad)" stroke="#00274C" stroke-width="2"/>
+        <!-- face mask -->
+        <path d="M14 36 L50 36" stroke="#00274C" stroke-width="2" fill="none"/>
+        <path d="M14 36 Q16 30 18 32" stroke="#00274C" stroke-width="2" fill="none"/>
+        <path d="M30 36 Q32 30 34 32" stroke="#00274C" stroke-width="2" fill="none"/>
+        <path d="M46 36 Q48 30 50 32" stroke="#00274C" stroke-width="2" fill="none"/>
+        <!-- wing left -->
+        <path d="M6 30 L6 22 Q12 22 16 26 L16 30 Z" fill="#00274C"/>
+        <path d="M8 26 L14 26 M8 24 L14 24" stroke="#FFCB05" stroke-width="1" fill="none"/>
+        <!-- wing right -->
+        <path d="M58 30 L58 22 Q52 22 48 26 L48 30 Z" fill="#00274C"/>
+        <path d="M50 26 L56 26 M50 24 L56 24" stroke="#FFCB05" stroke-width="1" fill="none"/>
+        <!-- earhole -->
+        <circle cx="46" cy="20" r="2.5" fill="#00274C"/>
+      </svg>
+    </div>
     <div>
-      <div class="title">ACC 289 — Cooper's Deck</div>
-      <div class="sub">Financial Statements & Vocabulary · Chapters 1–2</div>
+      <div class="title">ACC 289 — <span class="maize">Cooper's</span> Deck</div>
+      <div class="sub">Financial Statements & Vocabulary · Chapters 1–2 · <span style="color:var(--um-maize);">Go Blue</span></div>
     </div>
   </div>
   <div class="progress-mini">
     <div id="scoreMini">0 / 0</div>
     <div class="bar"><div id="progressBar" style="width:0%"></div></div>
   </div>
-</div>
+</header>
 
 <div class="wrap">
 
   <div class="tabs">
-    <div class="tab active" data-mode="flash">Flashcards</div>
+    <div class="tab active" data-mode="home">Home</div>
+    <div class="tab" data-mode="flash">Flashcards</div>
     <div class="tab" data-mode="test">Test</div>
     <div class="tab" data-mode="match">Match</div>
   </div>
@@ -320,6 +542,140 @@ document.addEventListener("DOMContentLoaded", () => {
   render();
 });
 
+/* ---- Home / menu ---- */
+function go(modeName) {
+  mode = modeName;
+  idx = 0; flipped = false; matched = 0; matchLeft = null; matchRight = null;
+  if (modeName === "test") { prepTest(); testQ = testQ || null; }
+  document.querySelectorAll(".tab").forEach(x => x.classList.toggle("active", x.dataset.mode === modeName));
+  render();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function renderHome() {
+  const studied = seen;
+  const accuracy = seen ? Math.round((correct / seen) * 100) : 0;
+  const studiedColor = studied ? (accuracy >= 70 ? "var(--good)" : accuracy >= 40 ? "#fbbf24" : "var(--bad)") : "var(--text-dim)";
+  return `
+    <div class="home">
+      <div class="home-stadium">
+        <!-- Stadium silhouette + wolverine + maize field -->
+        <svg viewBox="0 0 600 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#0a1a2f"/>
+              <stop offset="1" stop-color="#1a3a6b"/>
+            </linearGradient>
+            <linearGradient id="fieldGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#3a5d35"/>
+              <stop offset="1" stop-color="#1f3a1c"/>
+            </linearGradient>
+          </defs>
+          <!-- night sky -->
+          <rect width="600" height="90" fill="url(#skyGrad)"/>
+          <!-- stars -->
+          <circle cx="60"  cy="20" r="1.2" fill="#ffd94d" opacity=".9"/>
+          <circle cx="120" cy="35" r="0.8" fill="#fff"    opacity=".7"/>
+          <circle cx="200" cy="18" r="1"   fill="#fff"    opacity=".8"/>
+          <circle cx="290" cy="28" r="0.9" fill="#ffd94d" opacity=".8"/>
+          <circle cx="370" cy="15" r="1.1" fill="#fff"    opacity=".85"/>
+          <circle cx="440" cy="32" r="0.7" fill="#ffd94d" opacity=".7"/>
+          <circle cx="520" cy="22" r="1"   fill="#fff"    opacity=".8"/>
+          <circle cx="570" cy="40" r="0.9" fill="#fff"    opacity=".7"/>
+          <!-- maize moon -->
+          <circle cx="495" cy="38" r="14" fill="#FFCB05" opacity=".85"/>
+          <circle cx="495" cy="38" r="14" fill="url(#moonShade)"/>
+          <!-- far bleachers (silhouette) -->
+          <path d="M0 90 L0 80 Q150 55 300 70 Q450 85 600 60 L600 90 Z" fill="#0a1828"/>
+          <!-- stadium lights -->
+          <g fill="#fff7c2" opacity=".95">
+            <circle cx="80"  cy="62" r="2"/>
+            <circle cx="520" cy="62" r="2"/>
+            <circle cx="80"  cy="62" r="6" fill="#fff7c2" opacity=".15"/>
+            <circle cx="520" cy="62" r="6" fill="#fff7c2" opacity=".15"/>
+          </g>
+          <!-- maize field -->
+          <rect y="90" width="600" height="50" fill="url(#fieldGrad)"/>
+          <!-- yard lines -->
+          <g stroke="#fff" stroke-width=".5" opacity=".4">
+            <line x1="60"  y1="90" x2="60"  y2="140"/>
+            <line x1="150" y1="90" x2="150" y2="140"/>
+            <line x1="240" y1="90" x2="240" y2="140"/>
+            <line x1="330" y1="90" x2="330" y2="140"/>
+            <line x1="420" y1="90" x2="420" y2="140"/>
+            <line x1="510" y1="90" x2="510" y2="140"/>
+          </g>
+          <!-- field "M" -->
+          <text x="300" y="123" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="900" fill="#FFCB05" opacity=".85" stroke="#00274C" stroke-width=".8">M</text>
+          <!-- Wolverine silhouette (running) -->
+          <g transform="translate(190 80) scale(.9)" fill="#00274C">
+            <ellipse cx="22" cy="20" rx="14" ry="9"/>
+            <circle cx="10" cy="14" r="6"/>
+            <!-- ears -->
+            <path d="M5 9 L3 4 L8 7 Z"/>
+            <path d="M11 7 L11 2 L14 7 Z"/>
+            <!-- eye -->
+            <circle cx="8" cy="14" r="0.8" fill="#FFCB05"/>
+            <!-- legs -->
+            <path d="M15 27 L13 38 L11 38 L15 30 Z"/>
+            <path d="M20 28 L22 38 L20 39 L17 31 Z"/>
+            <path d="M28 27 L30 38 L32 38 L28 30 Z"/>
+            <path d="M34 28 L37 38 L35 38 L32 30 Z"/>
+            <!-- tail -->
+            <path d="M35 18 Q44 14 42 24"/>
+          </g>
+        </svg>
+      </div>
+
+      <span class="hero-tag">ACC 289 · Chapters 1–2</span>
+      <h1>Welcome, <span class="blue">Cooper.</span></h1>
+      <p class="subtitle">Three ways to study the financial statements and core vocabulary. Pick whatever fits the moment.</p>
+
+      <div class="menu-grid">
+        <div class="menu-card flash" data-go="flash">
+          <div class="icon">🃏</div>
+          <h3>Flashcards</h3>
+          <p>Tap a card to flip. Mark <b>Knew it</b> or <b>Didn't know</b> and progress to the next term.</p>
+          <div class="meta">32 cards · recommended for first pass</div>
+        </div>
+
+        <div class="menu-card test" data-go="test">
+          <div class="icon">🎯</div>
+          <h3>Test</h3>
+          <p>Multiple choice — match the term to its definition. Instant feedback with the right answer when you miss.</p>
+          <div class="meta">Unlimited questions · shuffled each round</div>
+        </div>
+
+        <div class="menu-card match" data-go="match">
+          <div class="icon">🧩</div>
+          <h3>Match</h3>
+          <p>Tap a term, then its matching definition. Fastest way to drill recall.</p>
+          <div class="meta">8 pairs per round · speed drill</div>
+        </div>
+      </div>
+
+      <div class="home-foot">
+        <b>Filter inside each mode:</b> All Cards · Financial Statements · Vocabulary<br>
+        <b>Progress saves automatically</b> in your browser. Come back any time.
+        ${studied ? `<br><span style="color:${studiedColor};font-weight:700;">${studied} studied · ${accuracy}% accuracy · best streak ${bestStreak}</span>` : `<br><span style="color:var(--text-dim);">No progress yet — pick a mode to start.</span>`}
+      </div>
+    </div>`;
+}
+
+/* generate confetti */
+(function makeConfetti() {
+  const c = document.getElementById("confetti");
+  if (!c) return;
+  for (let i = 0; i < 28; i++) {
+    const el = document.createElement("i");
+    if (Math.random() > 0.5) el.className = "b";
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.animationDuration = (12 + Math.random() * 18) + "s";
+    el.style.animationDelay = (-Math.random() * 20) + "s";
+    el.style.transform = "rotate(" + Math.random() * 360 + "deg)";
+    c.appendChild(el);
+  }
+})();
+
 function save() {
   localStorage.setItem("coop_acc289", JSON.stringify({ seen, correct, bestStreak }));
 }
@@ -336,15 +692,22 @@ function updateStats() {
 
 /* ================== RENDER ================== */
 function render() {
-  // refresh chips active state
+  // refresh chips active state + visibility
+  const filterEl = document.getElementById("filter");
   document.querySelectorAll(".chip").forEach(c => {
     c.classList.toggle("active", c.dataset.tag === tagFilter);
   });
+  filterEl.style.display = (mode === "home") ? "none" : "flex";
   updateStats();
   const view = document.getElementById("view");
-  if (mode === "flash") view.innerHTML = renderFlash();
+  if (mode === "home") view.innerHTML = renderHome();
+  else if (mode === "flash") view.innerHTML = renderFlash();
   else if (mode === "test") { if (!testQ) prepTest(); view.innerHTML = renderTest(); }
   else if (mode === "match") view.innerHTML = renderMatch();
+  // wire menu card clicks (after innerHTML re-render)
+  document.querySelectorAll(".menu-card").forEach(card => {
+    card.onclick = () => go(card.dataset.go);
+  });
 }
 
 /* ---- Flashcards ---- */
